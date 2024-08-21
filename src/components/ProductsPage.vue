@@ -82,11 +82,19 @@ function productMinus(id) {
 }
 
 function productsOrderSave() {
-  productsApiAll.forEach((product) => {
-    if (product.count > 0) {
-      productsOrder.push(product)
-    }
-  })
+  if (isSearch > 0){
+    productsApiAll.forEach((product) => {
+      if (product.count > 0) {
+        productsOrder.push(product)
+      }
+    })
+  } else {
+    productsApiAllOne.value.forEach((product) => {
+      if (product.count > 0) {
+        productsOrder.push(product)
+      }
+    })
+  }
 }
 
 function getImage(categoryName) {
@@ -127,7 +135,7 @@ function getImage(categoryName) {
 <template>
   <div class="bgColor ">
     <div class="container ">
-      <div class="input-group row fixed-top m-auto inputSearch">
+      <div class="input-group row fixed-top m-auto inputSearch pt-1">
         <input type="text" class="form-control col-12" placeholder="Search food " v-model="foodName" @input="searchFood">
       </div>
       <div class="row mb-5 py-4">
@@ -141,7 +149,7 @@ function getImage(categoryName) {
         </div>
 
         <div class="col-12 pt-4 " v-for="product in productsApiAll" :key="product.id">
-          <button v-show="product.count" class="btnOrder" >
+          <button v-show="product.count" class="btnOrder" @click="productsOrderSave" >
             <router-link to="/calculate" class="routerBtn" @click="productsOrderSave">VIEW ORDER</router-link>
           </button>
         </div>
@@ -149,6 +157,7 @@ function getImage(categoryName) {
       </div>
     </div>
   </div>
+
 </template>
 
 <style scoped>
